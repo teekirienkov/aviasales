@@ -14,6 +14,8 @@ const city = ['Москва', 'Санкт-Петербург', 'Минск', 'К
 
 inputCitiesFrom.addEventListener('input', function(){
     const filterCity = city.filter((item)=> {
-        return item.includes(inputCitiesFrom.value);
+        const fixItem = item.toLowerCase();
+        return fixItem.includes(inputCitiesFrom.value);
     });
+    console.log(filterCity);
 });
