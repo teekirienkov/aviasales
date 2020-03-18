@@ -15,7 +15,13 @@ const city = ['Москва', 'Санкт-Петербург', 'Минск', 'К
 inputCitiesFrom.addEventListener('input', function(){
     const filterCity = city.filter((item)=> {
         const fixItem = item.toLowerCase();
-        return fixItem.includes(inputCitiesFrom.value);
+        return fixItem.includes(inputCitiesFrom.value.toLowerCase());
     });
-    console.log(filterCity);
+
+    filterCity.forEach((item) => {
+        const li = document.createElement('li');
+        li.classList.add('dropdown__city');
+        li.textContent = item;
+        console.log(li);
+    });
 });
