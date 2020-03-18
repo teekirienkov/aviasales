@@ -7,3 +7,13 @@ const formSearch = document.querySelector('.form-search'),
     buttonSearch = document.querySelector('.button__search');
 
 
+const city = ['Москва', 'Санкт-Петербург', 'Минск', 'Караганда', 'Челябинск',
+    'Керч', 'Волгоград', 'Самара', 'Днепропетровск', 'Екатеринбург', 'Одесса',
+    'Ухань', 'Шымкен', 'Нижний Новгород', 'Калининград', 'Вроцлав', 'Ростав-на-Дону'];
+
+
+inputCitiesFrom.addEventListener('input', function(){
+    const filterCity = city.filter((item)=> {
+        return item.includes(inputCitiesFrom.value);
+    });
+});
