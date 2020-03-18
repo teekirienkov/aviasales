@@ -8,26 +8,33 @@ const formSearch = document.querySelector('.form-search'),
 
 
 const city = ['Москва', 'Санкт-Петербург', 'Минск', 'Караганда', 'Челябинск',
-    'Керч', 'Волгоград', 'Самара', 'Днепропетровск', 'Екатеринбург', 'Одесса',
+    'Керчь', 'Волгоград', 'Самара', 'Днепропетровск', 'Екатеринбург', 'Одесса',
     'Ухань', 'Шымкен', 'Нижний Новгород', 'Калининград', 'Вроцлав', 'Ростав-на-Дону'];
 
+const showCity = (input, list) => {
+    list.textContent = '';
 
-inputCitiesFrom.addEventListener('input', function(){
-    dropdownCitiesFrom.textContent = '';
-
-    if (inputCitiesFrom.value !== '' && inputCitiesFrom.value !== null) {
+    if (input.value !== '' && inputCitiesFrom.value !== null) {
 
         const filterCity = city.filter((item)=> {
             const fixItem = item.toLowerCase();
-            return fixItem.includes(inputCitiesFrom.value.toLowerCase());
+            
+            return fixItem.includes(input.value.toLowerCase());
         });
 
         filterCity.forEach((item) => {
             const li = document.createElement('li');
             li.classList.add('dropdown__city');
             li.textContent = item;
-            dropdownCitiesFrom.append(li);
-
+            list.append(li);
         });
     }
+};
+    
+inputCitiesFrom.addEventListener('input', ()=>{
+    showCity(inputCitiesFrom, dropdownCitiesFrom);
+});
+
+inputCitiesTo.addEventListener('input', ()=>{
+    showCity(inputCitiesTo, dropdownCitiesTo);
 });
