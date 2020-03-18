@@ -38,3 +38,11 @@ inputCitiesFrom.addEventListener('input', ()=>{
 inputCitiesTo.addEventListener('input', ()=>{
     showCity(inputCitiesTo, dropdownCitiesTo);
 });
+
+// функция выбора города из выпадающего списка
+dropdownCitiesFrom.addEventListener('click', (event) => {
+    const target = event.target;
+    if (target.tagName.toLowerCase() === 'li') {
+        inputCitiesFrom.value = target.textContent;
+    }
+});
