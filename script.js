@@ -26,7 +26,15 @@ const showCity = (input, list) => {
         });
     }
 };
-  
+// функция выбора города из выпадающего списка
+const targetCity = (input, list) => {
+    const target = event.target;
+    if (target.tagName.toLowerCase() === 'li') {
+        input.value = target.textContent;
+        list.textContent = '';
+    }
+};
+
 inputCitiesFrom.addEventListener('input', ()=>{
     showCity(inputCitiesFrom, dropdownCitiesFrom);
 });
@@ -35,11 +43,11 @@ inputCitiesTo.addEventListener('input', ()=>{
     showCity(inputCitiesTo, dropdownCitiesTo);
 });
 
-// функция выбора города из выпадающего списка
+
 dropdownCitiesFrom.addEventListener('click', (event) => {
-    const target = event.target;
-    if (target.tagName.toLowerCase() === 'li') {
-        inputCitiesFrom.value = target.textContent;
-        dropdownCitiesFrom.textContent = '';
-    }
+    targetCity(inputCitiesFrom, dropdownCitiesFrom);
+});
+
+dropdownCitiesTo.addEventListener('click', (event) => {
+    targetCity(inputCitiesTo, dropdownCitiesTo);
 });
