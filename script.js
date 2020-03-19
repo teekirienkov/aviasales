@@ -9,11 +9,13 @@ const formSearch = document.querySelector('.form-search'),
 
 
 // API в json формате (города) и прокси
-const citiesApi = 'database/cities.json',
-    proxy = 'https://cors-anywhere.herokuapp.com/';
+const CITY_API = 'database/cities.json',
+    PROXY = 'https://cors-anywhere.herokuapp.com/',
+    API_KEY = '08a9b8938caabf0028f4b5d8a7064b7e',
+    calendar = 'http://min-prices.aviasales.ru/calendar_preload';
+
 // Массив с городами (создан через let так как в дальнейшем туда записываются города!)
 let city = [];
-
 
 // Функция получения данных с сервера (запросы) УНИВЕРСАЛЬНАЯ ФУНКЦИЯ!
 const getData = (url, callback) => {
@@ -36,11 +38,9 @@ const getData = (url, callback) => {
 const showCity = (input, list) => {
     list.textContent = '';
     if (input.value !== '') {
-        const filterCity = city.filter((item)=> {
-            if (item.name !== null) {      // это условие для того, чтобы в списке городов не было null
-                const fixItem = item.name.toLowerCase();
-                return fixItem.includes(input.value.toLowerCase());
-            }
+        const filterCity = city.filter((item)=> {      
+            const fixItem = item.name.toLowerCase();
+            return fixItem.includes(input.value.toLowerCase());
         });
         filterCity.forEach((item) => {
             const li = document.createElement('li');
@@ -74,6 +74,8 @@ dropdownCitiesTo.addEventListener('click', (event) => {
 });
 
 // Получение списка городов и присваивание в массив city
-getData(citiesApi, (data)=>{
-    city = JSON.parse(data);
+getData(CITY_API, (data)=>{
+    city = JSON.parse(data).filter((item) => {
+        return item.name;    // filter(item) нужен для того чтобы убрать null в городах!
+    });                      // return item.name - переводит в булев тип
 });
