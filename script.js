@@ -12,6 +12,25 @@ const city = ['Москва', 'Санкт-Петербург', 'Минск', 'К
     'Керчь', 'Волгоград', 'Самара', 'Днепропетровск', 'Екатеринбург', 'Одесса',
     'Ухань', 'Шымкент', 'Нижний Новгород', 'Калининград', 'Вроцлав', 'Ростав-на-Дону'];
 
+
+// Функция получения данных с сервера (запросы) УНИВЕРСАЛЬНАЯ ФУНКЦИЯ!
+const getData = (url) => {
+    const request = new XMLHttpRequest();
+
+    request.open('GET', url);
+
+    request.addEventListener('readystatechange', ()=>{
+        if(request.readyState !== 4) {
+            return;
+        }
+        if(request.status === 200) {
+            console.log(request);
+        } else {
+            console.error(request.status);
+        }
+    });
+    request.send();
+};
 // Функция с алгоритмом живого поиска
 const showCity = (input, list) => {
     list.textContent = '';
@@ -50,3 +69,5 @@ dropdownCitiesFrom.addEventListener('click', (event) => {
 dropdownCitiesTo.addEventListener('click', (event) => {
     selectCity(event, inputCitiesTo, dropdownCitiesTo);
 });
+
+getData();
