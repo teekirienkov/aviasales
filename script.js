@@ -15,19 +15,23 @@ const showCity = (input, list) => {
     list.textContent = '';
     if (input.value !== '' && inputCitiesFrom.value !== null) {
         const filterCity = city.filter((item)=> {
+
             const fixItem = item.toLowerCase();
             return fixItem.includes(input.value.toLowerCase());
+
         });
         filterCity.forEach((item) => {
+
             const li = document.createElement('li');
             li.classList.add('dropdown__city');
             li.textContent = item;
             list.append(li);
+
         });
     }
 };
 // функция выбора города из выпадающего списка
-const targetCity = (input, list) => {
+const selectCity = (event, input, list) => {
     const target = event.target;
     if (target.tagName.toLowerCase() === 'li') {
         input.value = target.textContent;
@@ -38,16 +42,12 @@ const targetCity = (input, list) => {
 inputCitiesFrom.addEventListener('input', ()=>{
     showCity(inputCitiesFrom, dropdownCitiesFrom);
 });
-
 inputCitiesTo.addEventListener('input', ()=>{
     showCity(inputCitiesTo, dropdownCitiesTo);
 });
-
-
 dropdownCitiesFrom.addEventListener('click', (event) => {
-    targetCity(inputCitiesFrom, dropdownCitiesFrom);
+    selectCity(event, inputCitiesFrom, dropdownCitiesFrom);
 });
-
 dropdownCitiesTo.addEventListener('click', (event) => {
-    targetCity(inputCitiesTo, dropdownCitiesTo);
+    selectCity(event, inputCitiesTo, dropdownCitiesTo);
 });
