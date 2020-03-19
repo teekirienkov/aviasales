@@ -9,12 +9,10 @@ const formSearch = document.querySelector('.form-search'),
 
 
 // API в json формате (города) и прокси
-const CitiesApi = 'database/cities.json',
+const citiesApi = 'database/cities.json',
     proxy = 'https://cors-anywhere.herokuapp.com/';
-// Массив с городами
-const city = ['Москва', 'Санкт-Петербург', 'Минск', 'Караганда', 'Челябинск',
-    'Керчь', 'Волгоград', 'Самара', 'Днепропетровск', 'Екатеринбург', 'Одесса',
-    'Ухань', 'Шымкент', 'Нижний Новгород', 'Калининград', 'Вроцлав', 'Ростав-на-Дону'];
+// Массив с городами (создан через let так как в дальнейшем туда записываются города!)
+let city = [];
 
 
 // Функция получения данных с сервера (запросы) УНИВЕРСАЛЬНАЯ ФУНКЦИЯ!
@@ -37,15 +35,17 @@ const getData = (url, callback) => {
 // Функция с алгоритмом живого поиска
 const showCity = (input, list) => {
     list.textContent = '';
-    if (input.value !== '' && inputCitiesFrom.value !== null) {
+    if (input.value !== '') {
         const filterCity = city.filter((item)=> {
-            const fixItem = item.toLowerCase();
-            return fixItem.includes(input.value.toLowerCase());
+            if (item.name !== null) {      // это условие для того, чтобы в списке городов не было null
+                const fixItem = item.name.toLowerCase();
+                return fixItem.includes(input.value.toLowerCase());
+            }
         });
         filterCity.forEach((item) => {
             const li = document.createElement('li');
             li.classList.add('dropdown__city');   // добавления класса в DOM 
-            li.textContent = item;
+            li.textContent = item.name;
             list.append(li);
         });
     }
@@ -73,7 +73,7 @@ dropdownCitiesTo.addEventListener('click', (event) => {
     selectCity(event, inputCitiesTo, dropdownCitiesTo);
 });
 
-
-getData(CitiesApi, (data)=>{
-    console.log(data);
+// Получение списка городов и присваивание в массив city
+getData(citiesApi, (data)=>{
+    city = JSON.parse(data);
 });
