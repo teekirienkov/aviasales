@@ -7,6 +7,10 @@ const formSearch = document.querySelector('.form-search'),
     inputDateDepart = document.querySelector('.input__date-depart'),
     buttonSearch = document.querySelector('.button__search');
 
+
+// API в json формате (города)
+const CitiesApi = 'http://api.travelpayouts.com/data/ru/cities.json',
+    proxy = 'https://cors-anywhere.herokuapp.com/';
 // Массив с городами
 const city = ['Москва', 'Санкт-Петербург', 'Минск', 'Караганда', 'Челябинск',
     'Керчь', 'Волгоград', 'Самара', 'Днепропетровск', 'Екатеринбург', 'Одесса',
@@ -14,17 +18,16 @@ const city = ['Москва', 'Санкт-Петербург', 'Минск', 'К
 
 
 // Функция получения данных с сервера (запросы) УНИВЕРСАЛЬНАЯ ФУНКЦИЯ!
-const getData = (url) => {
+const getData = (url, callback) => {
     const request = new XMLHttpRequest();
 
     request.open('GET', url);
 
     request.addEventListener('readystatechange', ()=>{
-        if(request.readyState !== 4) {
-            return;
-        }
+        if(request.readyState !== 4) {return;} // Сделал так потому что JSHint ругается
+        
         if(request.status === 200) {
-            console.log(request);
+            callback(request.response);
         } else {
             console.error(request.status);
         }
@@ -70,4 +73,4 @@ dropdownCitiesTo.addEventListener('click', (event) => {
     selectCity(event, inputCitiesTo, dropdownCitiesTo);
 });
 
-getData();
+
