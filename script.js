@@ -8,8 +8,8 @@ const formSearch = document.querySelector('.form-search'),
     buttonSearch = document.querySelector('.button__search');
 
 
-// API в json формате (города)
-const CitiesApi = 'http://api.travelpayouts.com/data/ru/cities.json',
+// API в json формате (города) и прокси
+const CitiesApi = 'database/cities.json',
     proxy = 'https://cors-anywhere.herokuapp.com/';
 // Массив с городами
 const city = ['Москва', 'Санкт-Петербург', 'Минск', 'Караганда', 'Челябинск',
@@ -74,3 +74,6 @@ dropdownCitiesTo.addEventListener('click', (event) => {
 });
 
 
+getData(CitiesApi, (data)=>{
+    console.log(data);
+});
