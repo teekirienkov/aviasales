@@ -73,6 +73,15 @@ dropdownCitiesTo.addEventListener('click', (event) => {
     selectCity(event, inputCitiesTo, dropdownCitiesTo);
 });
 
+
+// Обработчик событий формы поиска
+formSearch.addEventListener('submit', (event)=>{
+    event.preventDefault();
+    
+});
+
+
+
 // Получение списка городов и присваивание в массив city
 getData(CITY_API, (data)=>{
     city = JSON.parse(data).filter((item) => {
