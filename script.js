@@ -58,6 +58,14 @@ const selectCity = (event, input, list) => {
         list.textContent = '';
     }
 };
+// Функция рендеринга билетов (ticket)
+const renderCheap = (data, date) => {
+    const cheapTicketMonth = JSON.parse(data).best_prices;
+    console.log(cheapTicketMonth);
+}
+
+
+
 // Обработчики событий ввода названия города (функция с живым поиском)
 inputCitiesFrom.addEventListener('input', ()=>{
     showCity(inputCitiesFrom, dropdownCitiesFrom);
@@ -96,7 +104,7 @@ formSearch.addEventListener('submit', (event)=>{
     '&destination='+formData.to+'&one_way=true';
     
     getData(calendar + requestData, (response)=> {
-        console.log(response);
+        renderCheap(response, formData.when);
     });
 });
 
