@@ -58,11 +58,26 @@ const selectCity = (event, input, list) => {
         list.textContent = '';
     }
 };
-// Функция рендеринга билетов (ticket)
+
+const renderCheapDay = (cheapTicket) => {
+    console.log(cheapTicket);
+};
+
+const renderCheapYear = (cheapTickets) => {
+    console.log(cheapTickets);
+};
+
+// Функция рендеринга билетов (ticket) получает сразу best_prices
 const renderCheap = (data, date) => {
-    const cheapTicketMonth = JSON.parse(data).best_prices;
-    console.log(cheapTicketMonth);
-}
+    const cheapTicketYear = JSON.parse(data).best_prices;
+    
+    const cheapTicketDay = cheapTicketYear.filter((item) => {
+        return item.depart_date === date;
+    });
+
+    renderCheapDay(cheapTicketDay);
+    renderCheapYear(cheapTicketYear);
+};
 
 
 
@@ -89,10 +104,10 @@ formSearch.addEventListener('submit', (event)=>{
     const cityFrom = city.find((item) => {
             return inputCitiesFrom.value === item.name;
         }), // получение города из которого летим
-        cityTo = city.find((item) => {
+    
+    cityTo = city.find((item) => {
             return inputCitiesTo.value === item.name;
         }); // получение города в который летим
-
 
     const formData = {
         from: cityFrom.code,       // получение кода города (обращение к объекту)
@@ -100,8 +115,8 @@ formSearch.addEventListener('submit', (event)=>{
         when: inputDateDepart.value
     };
 
-    const requestData = '?depart_date='+formData.when+'&origin='+formData.from+ 
-    '&destination='+formData.to+'&one_way=true';
+    const requestData = `?depart_date=${formData.when}&origin=${formData.from}`+
+    `&destination=${formData.to}&one_way=true`;
     
     getData(calendar + requestData, (response)=> {
         renderCheap(response, formData.when);
