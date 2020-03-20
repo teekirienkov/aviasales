@@ -78,9 +78,27 @@ dropdownCitiesTo.addEventListener('click', (event) => {
 formSearch.addEventListener('submit', (event)=>{
     event.preventDefault();
     
+    const cityFrom = city.find((item) => {
+            return inputCitiesFrom.value === item.name;
+        }), // получение города из которого летим
+        cityTo = city.find((item) => {
+            return inputCitiesTo.value === item.name;
+        }); // получение города в который летим
+
+
+    const formData = {
+        from: cityFrom.code,       // получение кода города (обращение к объекту)
+        to: cityTo.code,           // тоже самое
+        when: inputDateDepart.value
+    };
+
+    const requestData = '?depart_date='+formData.when+'&origin='+formData.from+ 
+    '&destination='+formData.to+'&one_way=true';
+    
+    getData(calendar + requestData, (response)=> {
+        console.log(response);
+    });
 });
-
-
 
 // Получение списка городов и присваивание в массив city
 getData(CITY_API, (data)=>{
