@@ -60,11 +60,21 @@ const selectCity = (event, input, list) => {
         list.textContent = '';
     }
 };
-
+// Функция которая сортирует коды городов и приводит их в названия
 const getNameCity = (code) => {
     const objCity = city.find((item) => item.code === code);
     return objCity.name;
 }; 
+
+const getDate = (date) => {
+    return new Date(date).toLocaleString('ru-RU', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+    }); 
+};
 
 // Функция которая вызывается в createCard (в html коде) которая выводит кол-во пересадок
 const getChanges = (n) => {
@@ -93,7 +103,7 @@ const createCard = (data) => {
 			    <div class="city__from">Вылет из города
 				    <span class="city__name">${getNameCity(data.origin)}</span>
 			    </div>
-			<div class="date">${data.depart_date} г.</div>
+			<div class="date">${getDate(data.depart_date)}</div>
 		    </div>
 
 		    <div class="block-right">
@@ -116,15 +126,18 @@ const createCard = (data) => {
 
 // Функция билета
 const renderCheapDay = (cheapTicket) => {
+    cheapestTicket.style.display = 'block';
+    cheapestTicket.innerHTML= '<h2>Самый дешевый билет на выбранную дату</h2>'; // очистка формы
+    
     const ticket = createCard(cheapTicket[0]); // так как получаем массив, чтобы получить самый дешевый билет получаем самый первый через индекс 0
 
     cheapestTicket.append(ticket); // добавление в форму "самый дешевый билет на выбранную дату"
-
-    console.log(ticket);
 };
 // Функция билетов
 const renderCheapYear = (cheapTickets) => {
-    
+    otherCheapTickets.style.display = 'block';
+    otherCheapTickets.innerHTML = '<h2>Самые дешевые билеты на другие даты</h2>'; // очистка другой формы! 
+
     cheapTickets.sort((a, b)=> a.value - b.value); // сортировка по ценам (работает только с числами)
 
     console.log(cheapTickets);
@@ -137,6 +150,8 @@ const renderCheap = (data, date) => {
     const cheapTicketDay = cheapTicketYear.filter((item) => {
         return item.depart_date === date;
     });
+
+    
 
     renderCheapDay(cheapTicketDay);
     renderCheapYear(cheapTicketYear);
@@ -164,6 +179,8 @@ dropdownCitiesTo.addEventListener('click', (event) => {
 formSearch.addEventListener('submit', (event)=>{
     event.preventDefault();
     
+    
+
     const cityFrom = city.find((item) => {
             return inputCitiesFrom.value === item.name;
         }), // получение города из которого летим
