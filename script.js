@@ -10,11 +10,12 @@ const formSearch = document.querySelector('.form-search'),
     otherCheapTickets = document.getElementById('other-cheap-tickets');
 
 
-// API в json формате (города) и прокси
+// API в json формате (города), прокси, API ключ, calendar API
 const CITY_API = 'database/cities.json',
     PROXY = 'https://cors-anywhere.herokuapp.com/',
     API_KEY = '08a9b8938caabf0028f4b5d8a7064b7e',
-    calendar = 'http://min-prices.aviasales.ru/calendar_preload';
+    calendar = 'http://min-prices.aviasales.ru/calendar_preload',
+    MAX_COUNT = 10;
 
 // Массив с городами (создан через let так как в дальнейшем туда записываются города)
 let city = [];
@@ -118,7 +119,7 @@ const createCard = (data) => {
         <h3 class="agent">${data.gate}</h3>
         <div class="ticket__wrapper">
 	        <div class="left-side">
-		        <a href="${getLinkAviasales(data)}" class="button button__buy">Купить
+		        <a href="${getLinkAviasales(data)}" class="button button__buy" target="_blank">Купить
 			            за ${data.value}₽</a>
 	    </div>
 	    <div class="right-side">
@@ -162,6 +163,11 @@ const renderCheapYear = (cheapTickets) => {
     otherCheapTickets.innerHTML = '<h2>Самые дешевые билеты на другие даты</h2>'; // очистка другой формы! 
 
     cheapTickets.sort((a, b)=> a.value - b.value); // сортировка по ценам (работает только с числами)
+
+    for (let i = 0; i < cheapTickets.length && i < MAX_COUNT; i ++) {
+        const ticket = createCard(cheapTickets[i]);
+        otherCheapTickets.append(ticket);
+    }
 
     console.log(cheapTickets);
 };
