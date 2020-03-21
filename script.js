@@ -15,7 +15,7 @@ const CITY_API = 'database/cities.json',
     PROXY = 'https://cors-anywhere.herokuapp.com/',
     API_KEY = '08a9b8938caabf0028f4b5d8a7064b7e',
     calendar = 'http://min-prices.aviasales.ru/calendar_preload',
-    MAX_COUNT = 10; // кол-во дополнительных билетов снизу на другие даты
+    MAX_COUNT = 10;
 
 // Массив с городами (создан через let так как в дальнейшем туда записываются города)
 let city = [];
@@ -44,26 +44,16 @@ const getData = (url, callback, reject = console.error) => {
 const showCity = (input, list) => {
     list.textContent = '';
     if (input.value !== '') {
-
         const filterCity = city.filter((item)=> {      
             const fixItem = item.name.toLowerCase();
             return fixItem.startsWith(input.value.toLowerCase());
         });
-
-        if (filterCity.length === 0) {
-			const li = document.createElement('li');
-            li.classList.add('dropdown__city', 'error'); // Условие, если длина строки filterCity = 0
-			li.textContent = 'Такого города нет';        // то в списке li выводится строка
-			list.append(li);
-		} else {
-			filterCity.forEach((item) => {
-				const li = document.createElement('li');
-				li.classList.add('dropdown__city');
-				li.textContent = item.name;
-				list.append(li);
-			});
-		};
-        return;
+        filterCity.forEach((item) => {
+            const li = document.createElement('li');
+            li.classList.add('dropdown__city');   // добавления класса в DOM 
+            li.textContent = item.name;
+            list.append(li);
+        });
     }
 };
 // Функция выбора города из выпадающего списка (и удаление списка после выбора)
@@ -237,12 +227,10 @@ formSearch.addEventListener('submit', (event)=>{
         const requestData = `?depart_date=${formData.when}&origin=${formData.from.code}`+
         `&destination=${formData.to.code}&one_way=true`;
     
-        getData(calendar + requestData, 
-            (response)=> {
+        getData(calendar + requestData, (response)=> {
             renderCheap(response, formData.when);
-        },  (error) => {
-            cheapestTicket.style.display = 'block';
-		    cheapestTicket.innerHTML = '<h2 class ="error">В этом направлении нет рейсов</h2>';
+        }, (error) => {
+            alert('В этом направлении нет рейсов');
             console.log('Ошибка', error);
         });
     } else {
@@ -256,11 +244,3 @@ getData(CITY_API, (data) => {
         return item.name;    // filter(item) нужен для того чтобы убрать null в городах!
     });                      // return item.name - переводит в булев тип
 });
-
-
-// filterCity.forEach((item) => {
-//     const li = document.createElement('li');
-//     li.classList.add('dropdown__city', 'error');   // добавления класса в DOM 
-//     li.textContent = item.name;
-//     list.append(li);
-// });
