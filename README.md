@@ -1,4 +1,4 @@
-Aviasales на JavaScript
+<h1>Aviasales на JavaScript</h1>
 Цель: совершенствование навыков программирования на JavaScript
 
 Какие задачи решены: 
