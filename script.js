@@ -21,20 +21,23 @@ const CITY_API = 'database/cities.json',
 let city = [];
 
 // Функция получения данных с сервера (запросы) УНИВЕРСАЛЬНАЯ ФУНКЦИЯ!
-const getData = (url, callback) => {
+// reject - функция обработки ошибок
+const getData = (url, callback, reject = console.error) => {
+    
     const request = new XMLHttpRequest();
 
     request.open('GET', url);
 
-    request.addEventListener('readystatechange', ()=>{
+    request.addEventListener('readystatechange', () => {
         if(request.readyState !== 4) {return;} // Сделал так потому что JSHint ругается
         
         if(request.status === 200) {
             callback(request.response);
         } else {
-            console.error(request.status);
+            reject(request.status);
         }
     });
+
     request.send();
 };
 // Функция с алгоритмом живого поиска
@@ -205,6 +208,7 @@ dropdownCitiesTo.addEventListener('click', (event) => {
 formSearch.addEventListener('submit', (event)=>{
     event.preventDefault();
     
+
     const cityFrom = city.find((item) => {
             return inputCitiesFrom.value === item.name;
         }), // получение города из которого летим
@@ -225,6 +229,9 @@ formSearch.addEventListener('submit', (event)=>{
     
         getData(calendar + requestData, (response)=> {
             renderCheap(response, formData.when);
+        }, (error) => {
+            alert('В этом направлении нет рейсов');
+            console.log('Ошибка', error);
         });
     } else {
         alert('Введите корректное название города!');
