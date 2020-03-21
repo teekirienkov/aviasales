@@ -65,16 +65,7 @@ const renderCheapDay = (cheapTicket) => {
 // Функция билетов
 const renderCheapYear = (cheapTickets) => {
     
-    cheapTickets.sort(function (a, b) {
-        if (a.value > b.value) {
-          return 1;                             // Сортировка билетов от цене
-        }
-        if (a.value < b.value) {
-          return -1;
-        }
-        // a должно быть равным b
-        return 0;
-      });
+    cheapTickets.sort((a, b)=> a.value - b.value); // сортировка по ценам (работает только с числами)
 
     console.log(cheapTickets);
 };
