@@ -48,12 +48,20 @@ const showCity = (input, list) => {
             const fixItem = item.name.toLowerCase();
             return fixItem.startsWith(input.value.toLowerCase());
         });
-        filterCity.forEach((item) => {
-            const li = document.createElement('li');
-            li.classList.add('dropdown__city');   // добавления класса в DOM 
-            li.textContent = item.name;
-            list.append(li);
-        });
+        if (filterCity.length === 0) {
+			const li = document.createElement('li');
+			li.classList.add('dropdown__city', 'error');
+			li.textContent = 'Такого города нет'; // условие, если fitlerCity = 0, то выводится корректное оповещение о ошибке
+			list.append(li);
+		} else {
+			filterCity.forEach((item) => {
+				const li = document.createElement('li');
+				li.classList.add('dropdown__city');
+				li.textContent = item.name;
+				list.append(li);
+			});
+		}
+		return;
     }
 };
 // Функция выбора города из выпадающего списка (и удаление списка после выбора)
@@ -230,12 +238,11 @@ formSearch.addEventListener('submit', (event)=>{
         getData(calendar + requestData, (response)=> {
             renderCheap(response, formData.when);
         }, (error) => {
-            alert('В этом направлении нет рейсов');
+            cheapestTicket.style.display = 'block';
+		    cheapestTicket.innerHTML = '<h2 class ="error">В этом направлении нет рейсов</h2>';
             console.log('Ошибка', error);
         });
-    } else {
-        alert('Введите корректное название города!');
-    }
+    } 
 });
 
 // Получение списка городов и присваивание в массив city
