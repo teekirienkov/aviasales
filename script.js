@@ -5,7 +5,9 @@ const formSearch = document.querySelector('.form-search'),
     inputCitiesTo = document.querySelector('.input__cities-to'),
     dropdownCitiesTo = document.querySelector('.dropdown__cities-to'),
     inputDateDepart = document.querySelector('.input__date-depart'),
-    buttonSearch = document.querySelector('.button__search');
+    buttonSearch = document.querySelector('.button__search'),
+    cheapestTicket = document.getElementById('cheapest-ticket'),
+    otherCheapTickets = document.getElementById('other-cheap-tickets');
 
 
 // API в json формате (города) и прокси
@@ -14,7 +16,7 @@ const CITY_API = 'database/cities.json',
     API_KEY = '08a9b8938caabf0028f4b5d8a7064b7e',
     calendar = 'http://min-prices.aviasales.ru/calendar_preload';
 
-// Массив с городами (создан через let так как в дальнейшем туда записываются города!)
+// Массив с городами (создан через let так как в дальнейшем туда записываются города)
 let city = [];
 
 // Функция получения данных с сервера (запросы) УНИВЕРСАЛЬНАЯ ФУНКЦИЯ!
@@ -40,7 +42,7 @@ const showCity = (input, list) => {
     if (input.value !== '') {
         const filterCity = city.filter((item)=> {      
             const fixItem = item.name.toLowerCase();
-            return fixItem.includes(input.value.toLowerCase());
+            return fixItem.startsWith(input.value.toLowerCase());
         });
         filterCity.forEach((item) => {
             const li = document.createElement('li');
@@ -118,12 +120,16 @@ formSearch.addEventListener('submit', (event)=>{
         when: inputDateDepart.value
     };
 
-    const requestData = `?depart_date=${formData.when}&origin=${formData.from}`+
-    `&destination=${formData.to}&one_way=true`;
+    if (formData.from && formData.to) {
+        const requestData = `?depart_date=${formData.when}&origin=${formData.from}`+
+        `&destination=${formData.to}&one_way=true`;
     
-    getData(calendar + requestData, (response)=> {
-        renderCheap(response, formData.when);
-    });
+        getData(calendar + requestData, (response)=> {
+            renderCheap(response, formData.when);
+        });
+    } else {
+        alert('Введите корректное название города!');
+    }
 });
 
 // Получение списка городов и присваивание в массив city
