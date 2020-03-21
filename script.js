@@ -58,12 +58,24 @@ const selectCity = (event, input, list) => {
         list.textContent = '';
     }
 };
-
+// Функция билета
 const renderCheapDay = (cheapTicket) => {
     console.log(cheapTicket);
 };
-
+// Функция билетов
 const renderCheapYear = (cheapTickets) => {
+    
+    cheapTickets.sort(function (a, b) {
+        if (a.value > b.value) {
+          return 1;                             // Сортировка билетов от цене
+        }
+        if (a.value < b.value) {
+          return -1;
+        }
+        // a должно быть равным b
+        return 0;
+      });
+
     console.log(cheapTickets);
 };
 
@@ -124,7 +136,7 @@ formSearch.addEventListener('submit', (event)=>{
 });
 
 // Получение списка городов и присваивание в массив city
-getData(CITY_API, (data)=>{
+getData(CITY_API, (data) => {
     city = JSON.parse(data).filter((item) => {
         return item.name;    // filter(item) нужен для того чтобы убрать null в городах!
     });                      // return item.name - переводит в булев тип
