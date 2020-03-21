@@ -71,11 +71,10 @@ const getDate = (date) => {
         year: 'numeric',
         month: 'long',
         day: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit'
+        // hour: '2-digit',
+        // minute: '2-digit'
     }); 
 };
-
 // Функция которая вызывается в createCard (в html коде) которая выводит кол-во пересадок
 const getChanges = (n) => {
     if (n) {
@@ -83,6 +82,30 @@ const getChanges = (n) => {
     } else {
         return 'Без пересадок';
     }
+};
+// Функция создания ссылки на билет
+const getLinkAviasales = (data) => {
+    let link = 'https://www.aviasales.ru/search/';
+
+    link = link + data.origin;
+    
+    const date = new Date(data.depart_date);
+    
+    const day = date.getDate();
+
+    link += day < 10 ? '0' + day : day;    // если месяцев меньше 10, то для корректного вывода месяца прибавляем 0
+
+    const month = date.getMonth() + 1;
+
+    link += month < 10 ? '0' + month : month;
+    
+    link += data.destination;
+
+    link += '1';    // это в конце ссылки, количество пассажиров
+
+    console.log('From: ', data.origin, 'To: ', data.destination, 'Link: ', link);
+
+    return link;
 };
 const createCard = (data) => {
     const ticket = document.createElement('article');      // создание элемента
@@ -95,7 +118,7 @@ const createCard = (data) => {
         <h3 class="agent">${data.gate}</h3>
         <div class="ticket__wrapper">
 	        <div class="left-side">
-		        <a href="https://www.aviasales.ru/search/SVX2905KGD1" class="button button__buy">Купить
+		        <a href="${getLinkAviasales(data)}" class="button button__buy">Купить
 			            за ${data.value}₽</a>
 	    </div>
 	    <div class="right-side">
@@ -104,7 +127,7 @@ const createCard = (data) => {
 				    <span class="city__name">${getNameCity(data.origin)}</span>
 			    </div>
 			<div class="date">${getDate(data.depart_date)}</div>
-		    </div>
+		</div>
 
 		    <div class="block-right">
 			    <div class="changes">${getChanges(data.number_of_changes)}</div>
@@ -151,12 +174,9 @@ const renderCheap = (data, date) => {
         return item.depart_date === date;
     });
 
-    
-
     renderCheapDay(cheapTicketDay);
     renderCheapYear(cheapTicketYear);
 };
-
 
 
 // Обработчики событий ввода названия города (функция с живым поиском)
@@ -179,8 +199,6 @@ dropdownCitiesTo.addEventListener('click', (event) => {
 formSearch.addEventListener('submit', (event)=>{
     event.preventDefault();
     
-    
-
     const cityFrom = city.find((item) => {
             return inputCitiesFrom.value === item.name;
         }), // получение города из которого летим
