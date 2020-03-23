@@ -15,7 +15,7 @@ const CITY_API = 'database/cities.json',
     PROXY = 'https://cors-anywhere.herokuapp.com/',
     API_KEY = '08a9b8938caabf0028f4b5d8a7064b7e',
     calendar = 'http://min-prices.aviasales.ru/calendar_preload',
-    MAX_COUNT = 10;
+    MAX_COUNT = 5;
 
 // Массив с городами (создан через let так как в дальнейшем туда записываются города)
 let city = [];
@@ -177,7 +177,7 @@ const renderCheapYear = (cheapTickets) => {
 
     for (let i = 0; i < cheapTickets.length && i < MAX_COUNT; i ++) {
         const ticket = createCard(cheapTickets[i]);
-        otherCheapTickets.append(ticket);
+        otherCheapTickets.append(ticket); // добавление в форму (с помощью цикла) количество билетов - i < MAX_COUNT
     }
 
     console.log(cheapTickets);
