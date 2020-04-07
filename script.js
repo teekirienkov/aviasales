@@ -77,7 +77,7 @@ const getNameCity = (code) => {
     const objCity = city.find((item) => item.code === code);
     return objCity.name;
 }; 
-
+// test
 const getDate = (date) => {
     return new Date(date).toLocaleString('ru-RU', {
         year: 'numeric',
