@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/teekirienkov/aviasales_js/issues"
   },
-  "homepage": "https://github.com/teekirienkov/aviasales_js#readme"
+  "homepage": "https://github.com/teekirienkov/aviasales_js#readme",
+  "devDependencies": {
+    "webpack": "^4.42.1",
+    "webpack-cli": "^3.3.11"
+  }
 }
